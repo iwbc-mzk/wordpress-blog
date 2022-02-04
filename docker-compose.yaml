@@ -1,0 +1,62 @@
+version: '3.5'
+
+services:
+  wp-nginx:
+    image: nginx:alpine
+    container_name: wp-nginx
+    env_file:
+      - .env
+    expose:
+      - 8001
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./blog:/var/www/html
+      - ./log:/var/log/nginx/web
+    networks:
+      - proxy-network
+      - blog-network
+    restart: always
+    depends_on:
+      - wordpress
+
+  db:
+    image: mysql:5.7
+    container_name: wp_mysql
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - blog-network
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+  wordpress:
+    image: wordpress:5.9-fpm
+    container_name: wp-wordpress
+    env_file:
+      - .env
+    volumes:
+      - ./blog:/var/www/html
+    networks:
+      - blog-network
+    restart: always
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+
+volumes:
+  db_data:
+
+networks:
+  proxy-network:
+    name: proxy-network
+  blog-network:
+    name: blog-network
