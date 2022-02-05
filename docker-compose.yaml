@@ -36,7 +36,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   wordpress:
-    image: wordpress:5.9-fpm
+    build: ./wordpress
     container_name: wp-wordpress
     env_file:
       - .env
