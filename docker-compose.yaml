@@ -10,8 +10,8 @@ services:
       - 8001
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ./blog:/var/www/html
-      - ./log:/var/log/nginx/web
+      - /blog:/var/www/html
+      - /log:/var/log/nginx/wordpress
     networks:
       - proxy-network
       - blog-network
@@ -41,7 +41,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./blog:/var/www/html
+      - /blog:/var/www/html
     networks:
       - blog-network
     restart: always
