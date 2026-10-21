@@ -1,8 +1,8 @@
-version: '3.5'
+version: "3.5"
 
 services:
   wp-nginx:
-    image: nginx:alpine
+    image: nginx:stable
     container_name: wp-nginx
     env_file:
       - .env
@@ -20,7 +20,7 @@ services:
       - wordpress
 
   db:
-    image: mysql:5.7
+    image: mysql:latest
     container_name: wp_mysql
     env_file:
       - .env
