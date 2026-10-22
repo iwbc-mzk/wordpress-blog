@@ -20,7 +20,7 @@ services:
       - wordpress
 
   db:
-    image: mysql:5.7
+    image: mysql:8.0
     container_name: wp_mysql
     env_file:
       - .env
