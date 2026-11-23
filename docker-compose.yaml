@@ -3,6 +3,7 @@ version: "3.5"
 services:
   wp-nginx:
     image: nginx:stable
+    pull_policy: always
     container_name: wp-nginx
     env_file:
       - .env
